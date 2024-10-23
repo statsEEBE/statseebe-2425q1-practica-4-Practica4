@@ -1,0 +1,116 @@
+---
+title: "Practica 4"
+author: "Alejandro Caceres"
+date: "2024-03-26"
+output: html_document
+---
+
+## Poisson (variable discreta)
+
+El número de llamadas en una centralita sigue un modelo de poisson con $\lambda=25$.
+
+Dibujemos la función de masa de probabilidad
+
+
+```{r}
+x2 <- 0:50
+f2 <- dpois(x2,lambda=25)
+
+plot(x2, f2, type="h", col="red", lwd=3, main="Función de probabilidad", xlab="X", ylab="f(x)",
+     xlim=c(-0.5,50), 
+     ylim=c(0,0.15)) 
+
+points(x2, f2, col="red", lwd=8) 
+```
+
+- ¿Cuál es la probabilidad de recibir 10 llamadas?
+
+```{r}
+dpois(10,25)
+```
+
+- ¿Cuál es la probabilidad de recibir 30 llamadas?
+
+
+```{r}
+dpois(30,25)
+```
+
+Dibujemos la funcion de distribución
+
+```{r}
+
+x2 <- 0:50
+F2 <- ppois(x2,lambda=25)
+plot(c(-1,x2,50), c(0,F2,1), type="s", col="red", lwd=3, main="Función de distribución", xlab="X",
+     ylab="F(x)")
+
+points(x2, c(0,F2[-50]), 
+       col="red", 
+       pch=21, 
+       bg="white")
+
+```
+
+
+- ¿Cuál es la probabilidad de recibir como mucho 30 llamadas? $P(X \leq 30)$
+
+```{r}
+ppois(30,25)
+```
+- ¿Cuál es la probabilidad de recibir como minimo 30 llamadas?  $P(X \geq 30)$ 
+
+```{r}
+1-ppois(29,25)
+```
+
+## Exponencial (variable continua)
+
+El **tiempo** entre dos llamadas sigue una densidad de probabilidad exponencial con $\lambda=25$
+
+Dibujemos la densiad de probabilidad
+
+```{r}
+lambda = 25
+curve(dexp(x, rate=lambda), xlim = c(0, 4/lambda), col="red",
+      lwd=3, main="Exp", xlab="X", ylab="f(x)")
+
+```
+
+- ¿Cuál es la probabilidad de que pase un tiempo de 0.033 entre dos llamadas?
+
+$P(X=0.033)=0$
+
+- ¿Cuál es la probabilidad de que pase un tiempo de al menos 0.052 entre dos llamadas?
+
+$P(X>0.052)= 1-F(0.052)$
+
+Dibujemos la funcion de distribución
+
+```{r}
+curve(pexp(x, rate=lambda), xlim = c(0, 4/lambda), col="red",
+      lwd=3, main="Exp", xlab="X", ylab="F(x)")
+```
+
+```{r}
+1-pexp(0.052, 25)
+```
+- ¿Cuál tiempo de espera máximo que comprende un 75% de llamadas?
+
+```{r}
+qexp(0.75, 25)
+```
+
+- Hgamos 500000 simulaciones del tiempo entre dos llamadas, y calculemos su media 
+
+```{r}
+simul <- rexp(500000,25)
+mean(simul)
+```
+El valor esperado de una variable exponencial es
+
+```{r}
+1/lambda
+```
+
+
